@@ -94,7 +94,7 @@ namespace MongoDB.Libmongocrypt
         /// <param name="encryptionAlgorithm">The encryption algorithm.</param>
         /// <param name="message">The BSON message.</param>
         /// <returns>A encryption context. </returns>
-        public CryptContext StartExplicitEncryptionContextWithKeyId(byte[] keyId, EncryptionAlgorithm encryptionAlgorithm, byte[] message)
+        public CryptContext StartExplicitEncryptionContextWithKeyId(byte[] keyId, string encryptionAlgorithm, byte[] message)
         {
             ContextSafeHandle handle = Library.mongocrypt_ctx_new(_handle);
 
@@ -110,7 +110,7 @@ namespace MongoDB.Libmongocrypt
                 }
             }
 
-            handle.Check(_status, Library.mongocrypt_ctx_setopt_algorithm(handle, Helpers.EncryptionAlgorithmToString(encryptionAlgorithm), -1));
+            handle.Check(_status, Library.mongocrypt_ctx_setopt_algorithm(handle, encryptionAlgorithm, -1));
 
             unsafe
             {
@@ -134,7 +134,7 @@ namespace MongoDB.Libmongocrypt
         /// <param name="encryptionAlgorithm">The algorithm.</param>
         /// <param name="message">The BSON message.</param>
         /// <returns>A encryption context. </returns>
-        public CryptContext StartExplicitEncryptionContextWithKeyAltName(byte[] keyAltName, EncryptionAlgorithm encryptionAlgorithm, byte[] message)
+        public CryptContext StartExplicitEncryptionContextWithKeyAltName(byte[] keyAltName, string encryptionAlgorithm, byte[] message)
         {
             ContextSafeHandle handle = Library.mongocrypt_ctx_new(_handle);
             unsafe
@@ -149,7 +149,7 @@ namespace MongoDB.Libmongocrypt
                 }
             }
 
-            handle.Check(_status, Library.mongocrypt_ctx_setopt_algorithm(handle, Helpers.EncryptionAlgorithmToString(encryptionAlgorithm), -1));
+            handle.Check(_status, Library.mongocrypt_ctx_setopt_algorithm(handle, encryptionAlgorithm, -1));
 
             unsafe
             {

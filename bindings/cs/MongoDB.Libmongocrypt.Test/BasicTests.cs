@@ -30,6 +30,8 @@ namespace MongoDB.Libmongocrypt.Test
     public class BasicTests
     {
         private static ITestOutputHelper _output;
+        private const string AEAD_AES_256_CBC_HMAC_SHA_512_Deterministic = "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic";
+        private const string AEAD_AES_256_CBC_HMAC_SHA_512_Random = "AEAD_AES_256_CBC_HMAC_SHA_512-Random";
 
         public BasicTests(ITestOutputHelper output)
         {
@@ -243,7 +245,7 @@ namespace MongoDB.Libmongocrypt.Test
 
             byte[] encryptedBytes;
             using (var cryptClient = CryptClientFactory.Create(CreateOptions()))
-            using (var context = cryptClient.StartExplicitEncryptionContextWithKeyId(keyId, EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA_512_Random, testData))
+            using (var context = cryptClient.StartExplicitEncryptionContextWithKeyId(keyId, AEAD_AES_256_CBC_HMAC_SHA_512_Random, testData))
             {
                 var (encryptedBinary, encryptedDocument) = ProcessContextToCompletion(context);
                 encryptedBytes = encryptedBinary.ToArray(); // need to copy bytes out before the context gets destroyed
@@ -273,7 +275,7 @@ namespace MongoDB.Libmongocrypt.Test
                 byte[] encryptedResult;
                 using (var context = cryptClient.StartExplicitEncryptionContextWithKeyId(
                     keyId: keyId,
-                    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA_512_Deterministic,
+                    encryptionAlgorithm: AEAD_AES_256_CBC_HMAC_SHA_512_Deterministic,
                     message: testData))
                 {
                     var (state, binaryProduced, operationProduced) = ProcessState(context);
